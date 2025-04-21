@@ -1,6 +1,21 @@
-# FlowReasoner: Reinforcing Query-Level Meta-Agents
+# FlowReasoner 
 
-This repository is the official implementation for the paper: [FlowReasoner: Reinforcing Query-Level Meta-Agents]()
+
+
+
+<div align="center">
+<h2><a href="https://arxiv.org/abs/2501.18492">	
+FlowReasoner: Reinforcing Query-Level Meta-Agents</a></h2>
+    
+
+</a></h2>
+[Hongcheng Gao](https://hongcheng-gao.github.io/)*, [Yue Liu](https://yueliu1999.github.io/)*, [Yufei He](https://scholar.google.com/citations?user=_3HjpOMAAAAJ&hl=en), [Longxu Dou](https://longxudou.github.io/), [Chao Du](https://duchao0726.github.io/), [Zhijie Deng](https://scholar.google.com/citations?user=J3dR0sUAAAAJ&hl=en), [Bryan Hooi](https://bhooi.github.io/), [Min Lin](https://scholar.google.com.sg/citations?user=BGONmkIAAAAJ&hl=en), [Tianyu Pang](https://p2333.github.io/)
+
+</div>
+
+
+
+
 
 ## Summary
 
