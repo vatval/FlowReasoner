@@ -1,7 +1,7 @@
 
 
 <div align="center">
-<h2><a href="https://arxiv.org/abs/2501.18492">	
+<h2><a href="">	
 FlowReasoner: Reinforcing Query-Level Meta-Agents</a></h2>
     
 
@@ -11,10 +11,6 @@ FlowReasoner: Reinforcing Query-Level Meta-Agents</a></h2>
 </div>
 
 
-
-
-
-## Summary
 
 This paper proposes a query-level meta-agent named FlowReasoner to automate the design of query-level multi-agent systems, i.e., one system per user query. Our core idea is to incentivize a reasoning-based meta-agent via external execution feedback. Concretely, by distilling DeepSeek R1, we first endow the basic reasoning ability regarding the generation of multi-agent systems to FlowReasoner.  Then, we further enhance it via reinforcement learning (RL) with external execution feedback.A multi-purpose reward is designed to guide the RL training from aspects of performance, complexity, and efficiency.  In this manner, FlowReasoner is enabled to generate a personalized multi-agent system for each user query via deliberative reasoning.  Experiments on both engineering and competition code benchmarks demonstrate the superiority of FlowReasoner.  Remarkably, it surpasses o1-mini by $\mathbf{10.52}$\% accuracy across three benchmarks.
 
