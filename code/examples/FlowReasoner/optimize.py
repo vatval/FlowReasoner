@@ -128,9 +128,9 @@ if __name__ == "__main__":
             print(f"Directory {optimized_full_path} does not exist. Skipping removal.")
         
         # 下载所需的数据集（如果需要）
-        download(["initial_rounds"], if_first_download=args.if_first_optimize)
-        # src_optimized = "/sail/backup/optimized"
-        # shutil.copytree(src_optimized, args.optimized_path)
+        # download(["initial_rounds"], if_first_download=args.if_first_optimize)
+        src_optimized = "/sail/backup/optimized"
+        shutil.copytree(src_optimized, args.optimized_path)
         
         # 获取当前实验配置
         config = EXPERIMENT_CONFIGS[args.dataset]

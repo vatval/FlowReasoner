@@ -60,28 +60,74 @@ class MBPPBenchmark(BaseBenchmark):
             if entry_point not in global_dict:
                 raise ValueError(f"Function {entry_point} is not defined in the solution.")
 
-            exec(test, global_dict)
+            # Modify the test code to track pass rate
+            modified_test = """
+    # Original test code
+    {}
+
+    # Tracking variables for pass rate
+    total_tests = 0
+    passed_tests = 0
+
+    # Original check function
+    original_check = check
+
+    # Modified check function to track pass rate
+    def check_with_rate():
+        global total_tests, passed_tests
+        
+        # Define a test tracker function
+        def track_test(result, expected=True):
+            global total_tests, passed_tests
+            total_tests += 1
+            if result == expected:
+                passed_tests += 1
+                return True
+            return False
+        
+        # Add tracker to global dict
+        globals()['assert_equal'] = track_test
+        globals()['assert_true'] = lambda x: track_test(x, True)
+        globals()['assert_false'] = lambda x: track_test(x, False)
+        
+        # Call the original check function
+        result = original_check()
+        
+        # Calculate pass rate
+        pass_rate = passed_tests / total_tests if total_tests > 0 else 0
+        return (result, pass_rate, total_tests, passed_tests)
+
+    # Override original check
+    check = check_with_rate
+    """.format(test)
+
+            exec(modified_test, global_dict)
 
             check = global_dict["check"]
 
             result = self.run_with_timeout(check, 15)
 
             if result is None:
-                result = (self.PASS, "The solution passed all test cases.")
+                return (self.PASS, "The solution passed all test cases.", 1.0)
+            
+            # Unpack the result
+            original_result, pass_rate, total_tests, passed_tests = result
+            
+            if original_result is True:
+                return (self.PASS, f"The solution passed all test cases. Pass rate: {pass_rate:.2f} ({passed_tests}/{total_tests})", pass_rate)
+            else:
+                return (self.FAIL, f"The solution failed some test cases. Pass rate: {pass_rate:.2f} ({passed_tests}/{total_tests})", pass_rate)
 
         except self.TimeoutError:
-            result = (
-                self.FAIL,
-                "Execution timed out. Please check if your solution contains infinite loops or overly time-consuming operations.",
-            )
+            error_message = "Execution timed out. Please check if your solution contains infinite loops or overly time-consuming operations."
+            return (self.FAIL, error_message, 0.0)
         except Exception as e:
             error_message = f"Error: {str(e)}.\n Solution: {solution}.\n Test: {test}"
-            result = (self.FAIL, error_message)
-
+            
             with open("error.log", "a", encoding="utf-8") as log_file:
                 log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {error_message}\n")
-
-        return result
+            
+            return (self.FAIL, error_message, 0.0)
 
     @retry(stop=stop_after_attempt(5), wait=wait_fixed(1), retry=retry_if_exception_type(Exception), reraise=True)
     async def _generate_output(self, graph, prompt, entry_point):
@@ -101,10 +147,10 @@ class MBPPBenchmark(BaseBenchmark):
             expected_output = test_case_details + "\nCorrect Solution:" + data["code"]
 
             # Calculate score based on the check result
-            score = 1.0 if ret[0] == self.PASS else 0.0
+            score = 1.0 if ret[0] == self.PASS else ret[2]
 
             # Log mismatch if the score is 0
-            if score == 0:
+            if score != 1:
                 self.log_mismatch(input_text, expected_output, prediction, score)
 
             return input_text, prediction, expected_output, score, cost

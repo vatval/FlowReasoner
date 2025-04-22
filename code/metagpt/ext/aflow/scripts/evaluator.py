@@ -12,9 +12,10 @@ from metagpt.ext.aflow.benchmark.hotpotqa import HotpotQABenchmark
 from metagpt.ext.aflow.benchmark.humaneval import HumanEvalBenchmark
 from metagpt.ext.aflow.benchmark.math import MATHBenchmark
 from metagpt.ext.aflow.benchmark.mbpp import MBPPBenchmark
+from metagpt.ext.aflow.benchmark.bigcodebench import BigCodeBenchmark
 import random
 # If you want to customize tasks, add task types here and provide evaluation functions, just like the ones given above
-DatasetType = Literal["HumanEval", "MBPP", "GSM8K", "MATH", "HotpotQA", "DROP"]
+DatasetType = Literal["HumanEval", "MBPP", "GSM8K", "MATH", "HotpotQA", "DROP", "BigCodeBench"]
 
 
 class Evaluator:
@@ -31,6 +32,7 @@ class Evaluator:
             "HotpotQA": HotpotQABenchmark,
             "MBPP": MBPPBenchmark,
             "DROP": DROPBenchmark,
+            "BigCodeBench": BigCodeBenchmark
         }
 
     async def graph_evaluate(
