@@ -133,16 +133,19 @@ class MBPPBenchmark(BaseBenchmark):
     async def _generate_output(self, graph, prompt, entry_point):
         return await graph(prompt, entry_point)
 
-    async def evaluate_problem(self, data: dict, graph: Callable) -> Tuple[str, str, str, float, float]:
+    async def evaluate_problem(self, data: dict, graph: Callable, is_test=False) -> Tuple[str, str, str, float, float]:
         input_text = data["prompt"]
         expected_output = "\nCorrect Solution:\ndef " + data["code"]
 
         try:
             # Generate prediction using the graph function
             prediction, cost = await self._generate_output(graph, input_text, data["entry_point"])
-
+            if is_test:
+                data_test = data["test"]
+            else:
+                data_test = data["val"]
             # Check the solution
-            ret = self.check_solution(prediction, data["test"], data["entry_point"])
+            ret = self.check_solution(prediction, data_test, data["entry_point"])
             test_case_details = ret[1]
             expected_output = test_case_details + "\nCorrect Solution:" + data["code"]
 

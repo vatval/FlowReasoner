@@ -226,11 +226,11 @@ class BigCodeBenchmark(BaseBenchmark):
             prediction, cost = await self._generate_output(graph, input_text, data["entry_point"])
 
             # Check the solution
-            # if is_test:
-            #     data_test = data["test"]
-            # else:
-            #     data_test = data["val"]
-            data_test = data["test"]
+            if is_test:
+                data_test = data["test"]
+            else:
+                data_test = data["val"]
+            # data_test = data["test"]
             # print("-----------")
             # print(data_test)
             ret = self.check_solution(prediction, data_test,data["entry_point"])

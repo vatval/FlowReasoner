@@ -148,7 +148,7 @@ class HumanEvalBenchmark(BaseBenchmark):
         # Generate output with a timeout of 60 seconds
         return await asyncio.wait_for(graph(prompt, entry_point), timeout=60)
 
-    async def evaluate_problem(self, data: dict, graph: Callable) -> Tuple[str, str, str, float, float]:
+    async def evaluate_problem(self, data: dict, graph: Callable, is_test=False) -> Tuple[str, str, str, float, float]:
         input_text = data["prompt"]
         expected_output = (
             "\nCorrect Solution:\ndef "
@@ -163,7 +163,11 @@ class HumanEvalBenchmark(BaseBenchmark):
             prediction, cost = await self._generate_output(graph, input_text, data["entry_point"])
 
             # Check the solution
-            ret = self.check_solution(prediction, data["test"], data["entry_point"])
+            if is_test:
+                data_test = data["test"]
+            else:
+                data_test = data["val"]
+            ret = self.check_solution(prediction, data_test, data["entry_point"])
             test_case_details = ret[1]
             expected_output = test_case_details + expected_output
 
