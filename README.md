@@ -33,7 +33,7 @@ pip install --upgrade -e .
 
 *All experiments are conducted on NVIDIA A100 GPUs with 80GB of memory.*
 
-## Configure optimization parameters:
+## Configure optimization parameters
 Configure LLM parameters in config/config2.yaml (see examples/FlowReasoner/config2.example.yaml for reference)
 
 ```shell
@@ -62,6 +62,8 @@ python -m examples.FlowReasoner.optimize --dataset MATH
 ```shell
 python -m examples.FlowReasoner.optimize --dataset MATH --sample n --optimized_path xxx ...
 ```
+
+**Note that the test cases of each dataset should be split to two part with `val` and `test` seperately. The `val` test cases are used for external execution feedback for optimaze workflow.
 
 ## Training Stage
 
